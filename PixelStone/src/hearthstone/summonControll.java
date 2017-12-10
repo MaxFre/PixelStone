@@ -9,6 +9,7 @@ import java.util.ArrayList;
   public class summonControll {
 	Controller controller;
 	ArrayList<Card> yourCardsOnField = new ArrayList<Card>();
+	ArrayList<Card> yourCardsOnHand = new ArrayList<Card>();
 	ArrayList<Card> EnemyCardsOnField = new ArrayList<Card>();
 
 	
@@ -21,13 +22,14 @@ import java.util.ArrayList;
 
 	public void summmonThis(Card card){
 		yourCardsOnField.add(card);
-		controller.summonedMinions(yourCardsOnField);
+		
+//		controller.summonedMinions(yourCardsOnField);
 	}
 	
 	
 	public void yourKilledSummon(int whatMinion, Card card){
 		yourCardsOnField.remove(whatMinion);
-		controller.summonedMinions(yourCardsOnField);
+//		controller.summonedMinions(yourCardsOnField);
 	}
 	
 	

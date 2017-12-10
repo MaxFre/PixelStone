@@ -31,10 +31,13 @@ public class Gui extends JFrame implements ActionListener {
 	private JLabel deckCards = new JLabel("");
 	private JLabel manaLeft = new JLabel("Mana left this turn:");
 	
-	private JLabel line = new JLabel("----------------------------------------------------------------"
-			+ "-----------------------------------------------------------------------------------------------------------------------------------------"
-			+ "-----------------------------------------------------------------------------------------------------------------------------------------"
-			+ "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+//	private JLabel line = new JLabel("----------------------------------------------------------------"
+//			+ "-----------------------------------------------------------------------------------------------------------------------------------------"
+//			+ "-----------------------------------------------------------------------------------------------------------------------------------------"
+//			+ "------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+	
+	private JLabel playerName1 = new JLabel("Your Turn");
+	private JLabel playerName2 = new JLabel("Opponents Turn");
 	
 	private JLabel slot1 = new JLabel("");
 	private JLabel slot2 = new JLabel("");
@@ -101,12 +104,7 @@ public class Gui extends JFrame implements ActionListener {
 	private JButton summon3 = new JButton("Summon");
 	private JButton summon4 = new JButton("Summon");
 	private JButton summon5 = new JButton("Summon");
-	
-	private JButton discard1 = new JButton("Discard");
-	private JButton discard2 = new JButton("Discard");
-	private JButton discard3 = new JButton("Discard");
-	private JButton discard4 = new JButton("Discard");
-	private JButton discard5 = new JButton("Discard");
+
 	
 	private JButton endTurn = new JButton("End Turn");
 	
@@ -133,6 +131,7 @@ public class Gui extends JFrame implements ActionListener {
 	this.controller = controller;	
 	this.summonControll = summonControll;	
 
+	setContentPane(new JLabel(new ImageIcon("images/bakgroundImage.png")));
 	setLayout(null);
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	setPreferredSize(new Dimension(1900, 1000));
@@ -150,15 +149,20 @@ public class Gui extends JFrame implements ActionListener {
 	public void buildUI(){
 				
 		manaLeft.setFont(new Font("Serif", Font.BOLD, 30 ));
+		playerName1.setFont(new Font("Serif", Font.BOLD, 30 ));
+		playerName2.setFont(new Font("Serif", Font.BOLD, 30 ));
 				 
-		line.setBounds(300, 350, 2000, 50);
+//		line.setBounds(360, 350, 1300, 50);
+		
+		playerName2.setBounds(100, 250, 260, 40);
+		playerName1.setBounds(100, 450, 260, 40);
 		
 		manaLeft.setBounds(1000, 650, 2000, 250);
 		
 		
 		deckCards.setBounds(1570, 600, 300, 450);
 		
-		rdy.setBounds(100, 405, 250, 100);
+		rdy.setBounds(50, 336, 220, 100);
 		endTurn.setBounds(1600, 405, 250, 100);
 		
 		slot1.setBounds(100, 375, 300, 850);
@@ -228,23 +232,20 @@ public class Gui extends JFrame implements ActionListener {
 		
 		drawCard.setBounds(1570, 700, 150, 250);
 				
-		summon1.setBounds(105, 930, 70, 25);
-		summon2.setBounds(265, 930, 70, 25);
-		summon3.setBounds(425, 930, 70, 25);
-		summon4.setBounds(585, 930, 70, 25);
-		summon5.setBounds(745, 930, 70, 25);
-		
-				
-		discard1.setBounds(175, 930, 70, 25);
-		discard2.setBounds(335, 930, 70, 25);
-		discard3.setBounds(495, 930, 70, 25);
-		discard4.setBounds(655, 930, 70, 25);
-		discard5.setBounds(815, 930, 70, 25);
+		summon1.setBounds(125, 930, 70, 25);
+		summon2.setBounds(285, 930, 70, 25);
+		summon3.setBounds(445, 930, 70, 25);
+		summon4.setBounds(605, 930, 70, 25);
+		summon5.setBounds(765, 930, 70, 25);
 
+		
+		add(playerName1);
+		add(playerName2);
+		
 		add(rdy);
 		add(endTurn);
 		add(deckCards);
-		add(line);
+//		add(line);
 		add(manaLeft);
 		
 		add(slot1);
@@ -317,12 +318,7 @@ public class Gui extends JFrame implements ActionListener {
 		add(summon3);
 		add(summon4);
 		add(summon5);
-		
-		add(discard1);
-		add(discard2);
-		add(discard3);
-		add(discard4);
-		add(discard5);
+
 		
 		//load images from start not given by controller.
 		 resetBattleImagesAndText();
@@ -377,17 +373,18 @@ public class Gui extends JFrame implements ActionListener {
 		drawCard.setVisible(false);
 		endTurn.setVisible(false);
 		
-//		summon1.setVisible(false);
-//		summon2.setVisible(false);
-//		summon3.setVisible(false);
-//		summon4.setVisible(false);
-//		summon5.setVisible(false);
+		summon1.setVisible(false);
+		summon2.setVisible(false);
+		summon3.setVisible(false);
+		summon4.setVisible(false);
+		summon5.setVisible(false);
 		
 		battlePlace1AtkButton.setVisible(false);
 		battlePlace2AtkButton.setVisible(false);
 		battlePlace3AtkButton.setVisible(false);
 		battlePlace4AtkButton.setVisible(false);
 		battlePlace5AtkButton.setVisible(false);
+		endTurn.setVisible(false);
 	}
 	
 	
@@ -404,35 +401,76 @@ public class Gui extends JFrame implements ActionListener {
 	enemybattlePlace4.setIcon(loadImages.getEmptySlot());
 	enemybattlePlace5.setIcon(loadImages.getEmptySlot());
 	
+	Font theFont = new Font("Serif",Font.BOLD,14);
+	
 	enemybattlePlace1Atk.setText("");
+	enemybattlePlace1Atk.setFont(theFont);
+	
 	enemybattlePlace1Hp.setText("");
+	enemybattlePlace1Hp.setFont(theFont);	
 	enemybattlePlace1Hp.setForeground (Color.BLACK);
+	
 	enemybattlePlace2Atk.setText("");
+	enemybattlePlace2Hp.setFont(theFont);
+	
 	enemybattlePlace2Hp.setText("");
+	enemybattlePlace2Hp.setFont(theFont);
 	enemybattlePlace2Hp.setForeground (Color.BLACK);
+	
 	enemybattlePlace3Atk.setText("");
+	enemybattlePlace3Atk.setFont(theFont);
+	
 	enemybattlePlace3Hp.setText("");
+	enemybattlePlace3Hp.setFont(theFont);
 	enemybattlePlace3Hp.setForeground (Color.BLACK);
+	
 	enemybattlePlace4Atk.setText("");
+	enemybattlePlace4Atk.setFont(theFont);
+	
 	enemybattlePlace4Hp.setText("");
+	enemybattlePlace4Hp.setFont(theFont);
 	enemybattlePlace4Hp.setForeground (Color.BLACK);
+	
 	enemybattlePlace5Atk.setText("");
+	enemybattlePlace5Atk.setFont(theFont);
+	
 	enemybattlePlace5Hp.setText("");
+	enemybattlePlace5Hp.setFont(theFont);
 	enemybattlePlace5Hp.setForeground (Color.BLACK);
+	
 	battlePlace1Atk.setText("");
+	battlePlace1Atk.setFont(theFont);
+	
     battlePlace1Hp.setText("");
+    battlePlace1Hp.setFont(theFont);
 	battlePlace1Hp.setForeground (Color.BLACK);
+	
 	battlePlace2Atk.setText("");
+	battlePlace2Atk.setFont(theFont);
+	
     battlePlace2Hp.setText("");
+    battlePlace2Hp.setFont(theFont);
 	battlePlace2Hp.setForeground (Color.BLACK);
+	
 	battlePlace3Atk.setText("");
+	battlePlace3Atk.setFont(theFont);
+	
     battlePlace3Hp.setText("");
+    battlePlace3Hp.setFont(theFont);
 	battlePlace3Hp.setForeground (Color.BLACK);
+	
 	battlePlace4Atk.setText("");
+	battlePlace4Atk.setFont(theFont);
+	
     battlePlace4Hp.setText("");
+    battlePlace4Hp.setFont(theFont);
 	battlePlace4Hp.setForeground (Color.BLACK);
+	
 	battlePlace5Atk.setText("");
+	battlePlace5Atk.setFont(theFont);
+	
     battlePlace5Hp.setText("");
+    battlePlace5Hp.setFont(theFont);
 	battlePlace5Hp.setForeground (Color.BLACK);
 	
 	}
@@ -452,7 +490,7 @@ public class Gui extends JFrame implements ActionListener {
 		slot4.setIcon(loadImages.getFiller());
 		slot5.setIcon(loadImages.getFiller());
 		
-		makeAktionButtonWork();
+//		makeAktionButtonWork();
 		resetBattleImagesAndText();
 			
 		if(enemyCardsOnFields.size()>0){
@@ -557,6 +595,7 @@ public class Gui extends JFrame implements ActionListener {
 		if(cards.size()>0){
 			
 			slot1.setIcon(cards.get(0).getImage());
+			summon1.setEnabled(true);
 //			System.out.println(intManaLeft);
 //			System.out.println("testar - " + (intManaLeft - (cards.get(0).getCost())));
 
@@ -570,15 +609,19 @@ public class Gui extends JFrame implements ActionListener {
 		
 		if(cards.size()>1){
 			slot2.setIcon(cards.get(1).getImage());
+			summon2.setEnabled(true);
 		}
 		if(cards.size()>2){
 			slot3.setIcon(cards.get(2).getImage());
+			summon3.setEnabled(true);
 		}
 		if(cards.size()>3){
 			slot4.setIcon(cards.get(3).getImage());
+			summon4.setEnabled(true);
 		}
 		if(cards.size()>4){
 			slot5.setIcon(cards.get(4).getImage());
+			summon5.setEnabled(true);
 			 hideDraw();
 		}		
 	}
@@ -627,12 +670,11 @@ public class Gui extends JFrame implements ActionListener {
 		
 		drawCard.setVisible(true);
 		
-		summon1.setEnabled(true);
-		System.out.println(summon1.isEnabled());
-		summon2.setEnabled(true);
-		summon3.setEnabled(true);
-		summon4.setEnabled(true);
-		summon5.setEnabled(true);
+		summon1.setVisible(true);
+		summon2.setVisible(true);
+		summon3.setVisible(true);
+		summon4.setVisible(true);
+		summon5.setVisible(true);
 //		System.out.println("here in makeAktionButtonWork?");
 		
 		if(cardsOnField.size()>0){
@@ -788,7 +830,10 @@ public class Gui extends JFrame implements ActionListener {
 		
 		if (e.getSource() == rdy) {
 			System.out.println("rdy from gui");
+			rdy.setVisible(false);
+//			line.setBounds(0, 350, 2000, 50);
 			controller.rdy();
+			
 		}
 		
 		if (e.getSource() == enemyBattlePlace1AtkButton) {
@@ -857,7 +902,7 @@ public class Gui extends JFrame implements ActionListener {
 			if(cardsOnHand.size()>0){
 			Card card = cardsOnHand.get(0);			
 			if(!(slot5full) && slot1full && slot2full && slot3full && slot4full){
-				battlePlace5.setIcon(cardsOnHand.get(0).getBattleImage());
+//				battlePlace5.setIcon(cardsOnHand.get(0).getBattleImage());
 				battlePlace5Atk.setText("Atk: " + String.valueOf(cardsOnHand.get(0).getAttack()));
 				battlePlace5Hp.setText("Hp: " + String.valueOf(cardsOnHand.get(0).getHealth()));
 				slot5full=true;
@@ -867,7 +912,7 @@ public class Gui extends JFrame implements ActionListener {
 			}
 			
 			if(!(slot4full) && slot1full && slot2full && slot3full){
-				battlePlace4.setIcon(cardsOnHand.get(0).getBattleImage());
+//				battlePlace4.setIcon(cardsOnHand.get(0).getBattleImage());
 				battlePlace4Atk.setText("Atk: " + String.valueOf(cardsOnHand.get(0).getAttack()));
 				battlePlace4Hp.setText("Hp: " + String.valueOf(cardsOnHand.get(0).getHealth()));
 				slot4full=true;
@@ -876,7 +921,7 @@ public class Gui extends JFrame implements ActionListener {
 			}
 			
 			if(!(slot3full) && slot1full && slot2full){
-				battlePlace3.setIcon(cardsOnHand.get(0).getBattleImage());
+//				battlePlace3.setIcon(cardsOnHand.get(0).getBattleImage());
 				battlePlace3Atk.setText("Atk: " + String.valueOf(cardsOnHand.get(0).getAttack()));
 				battlePlace3Hp.setText("Hp: " + String.valueOf(cardsOnHand.get(0).getHealth()));
 				slot3full=true;
@@ -886,7 +931,7 @@ public class Gui extends JFrame implements ActionListener {
 			}
 			
 			if(!(slot2full) && slot1full){
-				battlePlace2.setIcon(cardsOnHand.get(0).getBattleImage());
+//				battlePlace2.setIcon(cardsOnHand.get(0).getBattleImage());
 				battlePlace2Atk.setText("Atk: " + String.valueOf(cardsOnHand.get(0).getAttack()));
 				battlePlace2Hp.setText("Hp: " + String.valueOf(cardsOnHand.get(0).getHealth()));
 				slot2full=true;
@@ -896,7 +941,7 @@ public class Gui extends JFrame implements ActionListener {
 			}
 			
 			if(!(slot1full)){
-			battlePlace1.setIcon(cardsOnHand.get(0).getBattleImage());
+//			battlePlace1.setIcon(cardsOnHand.get(0).getBattleImage());
 			battlePlace1Atk.setText("Atk: " + String.valueOf(cardsOnHand.get(0).getAttack()));
 			battlePlace1Hp.setText("Hp: " + String.valueOf(cardsOnHand.get(0).getHealth()));
 			slot1full=true;
@@ -911,7 +956,7 @@ public class Gui extends JFrame implements ActionListener {
 			if(cardsOnHand.size()>1){
 			Card card = cardsOnHand.get(1);			
 			if(!(slot5full) && slot1full && slot2full && slot3full && slot4full){
-				battlePlace5.setIcon(cardsOnHand.get(1).getBattleImage());
+//				battlePlace5.setIcon(cardsOnHand.get(1).getBattleImage());
 				battlePlace5Atk.setText("Atk: " + String.valueOf(cardsOnHand.get(1).getAttack()));
 				battlePlace5Hp.setText("Hp: " + String.valueOf(cardsOnHand.get(1).getHealth()));
 				slot5full=true;
@@ -921,7 +966,7 @@ public class Gui extends JFrame implements ActionListener {
 			}
 			
 			if(!(slot4full) && slot1full && slot2full && slot3full){
-				battlePlace4.setIcon(cardsOnHand.get(1).getBattleImage());
+//				battlePlace4.setIcon(cardsOnHand.get(1).getBattleImage());
 				battlePlace4Atk.setText("Atk: " + String.valueOf(cardsOnHand.get(1).getAttack()));
 				battlePlace4Hp.setText("Hp: " + String.valueOf(cardsOnHand.get(1).getHealth()));
 				slot4full=true;
@@ -931,7 +976,7 @@ public class Gui extends JFrame implements ActionListener {
 			}
 			
 			if(!(slot3full) && slot1full && slot2full){
-				battlePlace3.setIcon(cardsOnHand.get(1).getBattleImage());
+//				battlePlace3.setIcon(cardsOnHand.get(1).getBattleImage());
 				battlePlace3Atk.setText("Atk: " + String.valueOf(cardsOnHand.get(1).getAttack()));
 				battlePlace3Hp.setText("Hp: " + String.valueOf(cardsOnHand.get(1).getHealth()));
 				slot3full=true;
@@ -941,7 +986,7 @@ public class Gui extends JFrame implements ActionListener {
 			}
 			
 			if(!(slot2full) && slot1full){
-				battlePlace2.setIcon(cardsOnHand.get(1).getBattleImage());
+//				battlePlace2.setIcon(cardsOnHand.get(1).getBattleImage());
 				battlePlace2Atk.setText("Atk: " + String.valueOf(cardsOnHand.get(1).getAttack()));
 				battlePlace2Hp.setText("Hp: " + String.valueOf(cardsOnHand.get(1).getHealth()));
 				slot2full=true;
@@ -951,7 +996,7 @@ public class Gui extends JFrame implements ActionListener {
 			}
 			
 			if(!(slot1full)){
-			battlePlace1.setIcon(cardsOnHand.get(1).getBattleImage());
+//			battlePlace1.setIcon(cardsOnHand.get(1).getBattleImage());
 			battlePlace1Atk.setText("Atk: " + String.valueOf(cardsOnHand.get(1).getAttack()));
 			battlePlace1Hp.setText("Hp: " + String.valueOf(cardsOnHand.get(1).getHealth()));
 			slot1full=true;
@@ -966,7 +1011,7 @@ public class Gui extends JFrame implements ActionListener {
 			if(cardsOnHand.size()>2){
 			Card card = cardsOnHand.get(2);			
 			if(!(slot5full) && slot1full && slot2full && slot3full && slot4full){
-				battlePlace5.setIcon(cardsOnHand.get(2).getBattleImage());
+//				battlePlace5.setIcon(cardsOnHand.get(2).getBattleImage());
 				battlePlace5Atk.setText("Atk: " + String.valueOf(cardsOnHand.get(2).getAttack()));
 				battlePlace5Hp.setText("Hp: " + String.valueOf(cardsOnHand.get(2).getHealth()));
 				slot5full=true;
@@ -976,7 +1021,7 @@ public class Gui extends JFrame implements ActionListener {
 			}
 			
 			if(!(slot4full) && slot1full && slot2full && slot3full){
-				battlePlace4.setIcon(cardsOnHand.get(2).getBattleImage());
+//				battlePlace4.setIcon(cardsOnHand.get(2).getBattleImage());
 				battlePlace4Atk.setText("Atk: " + String.valueOf(cardsOnHand.get(2).getAttack()));
 				battlePlace4Hp.setText("Hp: " + String.valueOf(cardsOnHand.get(2).getHealth()));
 				slot4full=true;
@@ -986,7 +1031,7 @@ public class Gui extends JFrame implements ActionListener {
 			}
 			
 			if(!(slot3full) && slot1full && slot2full){
-				battlePlace3.setIcon(cardsOnHand.get(2).getBattleImage());
+//				battlePlace3.setIcon(cardsOnHand.get(2).getBattleImage());
 				battlePlace3Atk.setText("Atk: " + String.valueOf(cardsOnHand.get(2).getAttack()));
 				battlePlace3Hp.setText("Hp: " + String.valueOf(cardsOnHand.get(2).getHealth()));
 				slot3full=true;
@@ -996,7 +1041,7 @@ public class Gui extends JFrame implements ActionListener {
 			}
 			
 			if(!(slot2full) && slot1full){
-				battlePlace2.setIcon(cardsOnHand.get(2).getBattleImage());
+//				battlePlace2.setIcon(cardsOnHand.get(2).getBattleImage());
 				battlePlace2Atk.setText("Atk: " + String.valueOf(cardsOnHand.get(2).getAttack()));
 				battlePlace2Hp.setText("Hp: " + String.valueOf(cardsOnHand.get(2).getHealth()));
 				slot2full=true;
@@ -1006,7 +1051,7 @@ public class Gui extends JFrame implements ActionListener {
 			}
 			
 			if(!(slot1full)){
-			battlePlace1.setIcon(cardsOnHand.get(2).getBattleImage());
+//			battlePlace1.setIcon(cardsOnHand.get(2).getBattleImage());
 			battlePlace1Atk.setText("Atk: " + String.valueOf(cardsOnHand.get(2).getAttack()));
 			battlePlace1Hp.setText("Hp: " + String.valueOf(cardsOnHand.get(2).getHealth()));
 			slot1full=true;
@@ -1021,7 +1066,7 @@ public class Gui extends JFrame implements ActionListener {
 			if(cardsOnHand.size()>3){
 			Card card = cardsOnHand.get(3);			
 			if(!(slot5full) && slot1full && slot2full && slot3full && slot4full){
-				battlePlace5.setIcon(cardsOnHand.get(3).getBattleImage());
+//				battlePlace5.setIcon(cardsOnHand.get(3).getBattleImage());
 				battlePlace5Atk.setText("Atk: " + String.valueOf(cardsOnHand.get(3).getAttack()));
 				battlePlace5Hp.setText("Hp: " + String.valueOf(cardsOnHand.get(3).getHealth()));
 				slot5full=true;
@@ -1031,7 +1076,7 @@ public class Gui extends JFrame implements ActionListener {
 			}
 			
 			if(!(slot4full) && slot1full && slot2full && slot3full){
-				battlePlace4.setIcon(cardsOnHand.get(3).getBattleImage());
+//				battlePlace4.setIcon(cardsOnHand.get(3).getBattleImage());
 				battlePlace4Atk.setText("Atk: " + String.valueOf(cardsOnHand.get(3).getAttack()));
 				battlePlace4Hp.setText("Hp: " + String.valueOf(cardsOnHand.get(3).getHealth()));
 				slot4full=true;
@@ -1041,7 +1086,7 @@ public class Gui extends JFrame implements ActionListener {
 			}
 			
 			if(!(slot3full) && slot1full && slot2full){
-				battlePlace3.setIcon(cardsOnHand.get(3).getBattleImage());
+//				battlePlace3.setIcon(cardsOnHand.get(3).getBattleImage());
 				battlePlace3Atk.setText("Atk: " + String.valueOf(cardsOnHand.get(3).getAttack()));
 				battlePlace3Hp.setText("Hp: " + String.valueOf(cardsOnHand.get(3).getHealth()));
 				slot3full=true;
@@ -1051,7 +1096,7 @@ public class Gui extends JFrame implements ActionListener {
 			}
 			
 			if(!(slot2full) && slot1full){
-				battlePlace2.setIcon(cardsOnHand.get(3).getBattleImage());
+//				battlePlace2.setIcon(cardsOnHand.get(3).getBattleImage());
 				battlePlace2Atk.setText("Atk: " + String.valueOf(cardsOnHand.get(3).getAttack()));
 				battlePlace2Hp.setText("Hp: " + String.valueOf(cardsOnHand.get(3).getHealth()));
 				slot2full=true;
@@ -1061,7 +1106,7 @@ public class Gui extends JFrame implements ActionListener {
 			}
 			
 			if(!(slot1full)){
-			battlePlace1.setIcon(cardsOnHand.get(3).getBattleImage());
+//			battlePlace1.setIcon(cardsOnHand.get(3).getBattleImage());
 			battlePlace1Atk.setText("Atk: " + String.valueOf(cardsOnHand.get(3).getAttack()));
 			battlePlace1Hp.setText("Hp: " + String.valueOf(cardsOnHand.get(3).getHealth()));
 			slot1full=true;
@@ -1075,7 +1120,7 @@ public class Gui extends JFrame implements ActionListener {
 			if(cardsOnHand.size()>4){
 			Card card = cardsOnHand.get(4);			
 			if(!(slot5full) && slot1full && slot2full && slot3full && slot4full){
-				battlePlace5.setIcon(cardsOnHand.get(4).getBattleImage());
+//				battlePlace5.setIcon(cardsOnHand.get(4).getBattleImage());
 				battlePlace5Atk.setText("Atk: " + String.valueOf(cardsOnHand.get(4).getAttack()));
 				battlePlace5Hp.setText("Hp: " + String.valueOf(cardsOnHand.get(4).getHealth()));
 				slot5full=true;
@@ -1085,7 +1130,7 @@ public class Gui extends JFrame implements ActionListener {
 			}
 			
 			if(!(slot4full) && slot1full && slot2full && slot3full){
-				battlePlace4.setIcon(cardsOnHand.get(4).getBattleImage());
+//				battlePlace4.setIcon(cardsOnHand.get(4).getBattleImage());
 				battlePlace4Atk.setText("Atk: " + String.valueOf(cardsOnHand.get(4).getAttack()));
 				battlePlace4Hp.setText("Hp: " + String.valueOf(cardsOnHand.get(4).getHealth()));
 				slot4full=true;
@@ -1095,7 +1140,7 @@ public class Gui extends JFrame implements ActionListener {
 			}
 			
 			if(!(slot3full) && slot1full && slot2full){
-				battlePlace3.setIcon(cardsOnHand.get(4).getBattleImage());
+//				battlePlace3.setIcon(cardsOnHand.get(4).getBattleImage());
 				battlePlace3Atk.setText("Atk: " + String.valueOf(cardsOnHand.get(4).getAttack()));
 				battlePlace3Hp.setText("Hp: " + String.valueOf(cardsOnHand.get(4).getHealth()));
 				slot3full=true;
@@ -1105,7 +1150,7 @@ public class Gui extends JFrame implements ActionListener {
 			}
 			
 			if(!(slot2full) && slot1full){
-				battlePlace2.setIcon(cardsOnHand.get(4).getBattleImage());
+//				battlePlace2.setIcon(cardsOnHand.get(4).getBattleImage());
 				battlePlace2Atk.setText("Atk: " + String.valueOf(cardsOnHand.get(4).getAttack()));
 				battlePlace2Hp.setText("Hp: " + String.valueOf(cardsOnHand.get(4).getHealth()));
 				slot2full=true;
@@ -1115,11 +1160,11 @@ public class Gui extends JFrame implements ActionListener {
 			}
 			
 			if(!(slot1full)){
-			battlePlace1.setIcon(cardsOnHand.get(4).getBattleImage());
+//			battlePlace1.setIcon(cardsOnHand.get(4).getBattleImage());
 			battlePlace1Atk.setText("Atk: " + String.valueOf(cardsOnHand.get(4).getAttack()));
 			battlePlace1Hp.setText("Hp: " + String.valueOf(cardsOnHand.get(4).getHealth()));
 			slot1full=true;
-			cardsOnField.add(cardsOnHand.get(4));
+//			cardsOnField.add(cardsOnHand.get(4));
 			controller.summonCard(4, card);
 			
 			}		
@@ -1128,5 +1173,95 @@ public class Gui extends JFrame implements ActionListener {
 		
 		
 		
+	}
+	public String getAoeEnemyPosition(int whatMinion){
+		String position = "";
+		
+		whatMinion = whatMinion+1;
+		
+		if(whatMinion==1){
+			position = "480,0,300,450";
+		}
+		if(whatMinion==2){
+			position = "680,0,300,450";
+		}
+		if(whatMinion==3){
+			position = "880,0,300,450";
+		}
+		if(whatMinion==4){
+			position = "1080,0,300,450";
+		}
+		if(whatMinion==5){
+			position = "1280,0,300,450";
+		}
+		
+		return position;
+	}
+	
+	public String getPosition(int whatMinion){
+		String position = "";
+		if(whatMinion==1){
+			position = "480,50,300,850";
+		}
+		if(whatMinion==2){
+			position = "680,50,300,850";
+		}
+		if(whatMinion==3){
+			position = "880,50,300,850";
+		}
+		if(whatMinion==4){
+			position = "1080,50,300,850";
+		}
+		if(whatMinion==5){
+			position = "1280,50,300,850";
+		}
+
+		return position;
+	}
+	
+	public JLabel getEnemyBattleImage(int whatMinion){
+		whatMinion = whatMinion+1;
+		
+		 JLabel toEffects = new JLabel("");
+		 
+		if(whatMinion==1){
+			toEffects = enemybattlePlace1;
+		}
+		if(whatMinion==2){
+			toEffects = enemybattlePlace2;
+		}
+		if(whatMinion==3){
+			toEffects = enemybattlePlace3;
+		}
+		if(whatMinion==4){
+			toEffects = enemybattlePlace4;
+		}
+		if(whatMinion==5){
+			toEffects = enemybattlePlace5;
+		}
+				
+		return toEffects;
+	}
+	
+	public JLabel getbattleImage(int whatMinion){
+		 JLabel toEffects = new JLabel("");
+		if(whatMinion==1){
+			toEffects = battlePlace1;
+		}
+		if(whatMinion==2){
+			toEffects = battlePlace2;
+		}
+		if(whatMinion==3){
+			toEffects = battlePlace3;
+		}
+		if(whatMinion==4){
+			toEffects = battlePlace4;
+		}
+		if(whatMinion==5){
+			System.out.println("GUI GIVE THIS!!");
+			toEffects = battlePlace5;
+		}
+				
+		return toEffects;
 	}
 }

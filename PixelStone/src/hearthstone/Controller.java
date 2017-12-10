@@ -5,6 +5,11 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.JOptionPane;
+
+import ClientSide.ExAClient;
+import Effects.EffectController;
+
 
 public class Controller {
 	ArrayList<Card> theDeck= new ArrayList<Card>();
@@ -16,7 +21,7 @@ public class Controller {
 	ExAClient client;
 	
 	String playerName = "Name,Josse";
-	
+	EffectController effectController;
 	Deck deck;
 	Gui gui;
 	fightControll fight;
@@ -27,59 +32,38 @@ public class Controller {
 	
 	
 	
-	public Controller(){
-		
+	public Controller( ExAClient client){
+		this.client = client;
+		String playerName = JOptionPane.showInputDialog("input Name");
+		System.out.println(playerName);
 		deck = new Deck();
 		theDeck = deck.getDeck();
 		cardsLeft = theDeck.size();
+		effectController = new EffectController();
 //		getStartCards();	
 		images = new loadImages();
 		summon = new summonControll(this);
-		fight = new fightControll(this);
-		yourCardsOnField.add(theDeck.get(2));
-		yourCardsOnField.add(theDeck.get(2));
-		yourCardsOnField.add(theDeck.get(2));
-		yourCardsOnField.add(theDeck.get(2));
-		
+		fight = new fightControll(this,effectController);		
 		gui = new Gui(this,fight,summon);
-//		gui.showHandCards(yourCardsOnHand, yourCardsOnField, enemyCardsOnField);
 		gui.lockAllButtons();
-//		try {			
-//			client = new ExAClient(this,"127.0.0.1", 1337, playerName);
-//			System.out.println("here??");
-//			
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		wakeUpMinions();
-//		yourCardsOnHand.add(theDeck.get(5));
-//		yourCardsOnField.add(theDeck.get(5));
-//		enemyCardsOnField.add(theDeck.get(5));
-		
-		
-		
-//		enemyCardsOnField.add(theDeck.get(5));
-//		enemyCardsOnField.add(theDeck.get(15));
-//		enemyCardsOnField.add(theDeck.get(2));
-//		enemyCardsOnField.add(theDeck.get(1));
-//		client.updateBoard(yourCardsOnField,enemyCardsOnField);
-		
-//		gui.changeManaLeft(manaLeft);
-//		gui.showHandCards(yourCardsOnHand,client.getYourCardsOnField(),client.enemyCardsOnField);		
+		effectController.getGuiAccess(gui);
+		System.out.println("line 45 controller - Starting client wiht name: " + playerName);
+	
 	}
-	public void tellImHere(ExAClient client){
-		this.client = client;
-	}
+	
+
 	public void rdy(){
-		System.out.println("rdy from controller");
-		client.rdy();
+		System.out.println("line 78 controller - sending rdy to client");		
+			client.rdy();	
 	}
 	
 	
 	public void newRound(){
 		wakeUpMinions();
+		gui.makeAktionButtonWork();
 		gui.showHandCards(yourCardsOnHand,client.getYourCardsOnField(),client.getEnemyCardsOnField());	
+		yourCardsOnField = client.getYourCardsOnField();
+		enemyCardsOnField = client.getEnemyCardsOnField();
 	}
 	
 	
@@ -108,9 +92,7 @@ public class Controller {
 		
 		theirHp = (theirHp-yourDamage);
 		yourHp = (yourHp-theirDamga);
-//		System.out.println("yourMinion:" + yourCardsOnField.get(yourMinion-1).getName() +" atk:"
-//		+ yourCardsOnField.get(yourMinion-1).getAttack()+" HP:" + yourCardsOnField.get(yourMinion-1).getHealth());
-//		System.out.println(yourCardsOnField.get(yourMinion-1).getName() + "  your hp after: " +yourHp );
+
 		
 		yourCardsOnField.get(yourMinion-1).setHealth(yourHp);
 		enemyCardsOnField.get(enemyMinion-1).setHealth(theirHp);
@@ -122,18 +104,15 @@ public class Controller {
 		if(enemyCardsOnField.get(enemyMinion-1).getHealth()<=0){
 			enemyCardsOnField.remove(enemyMinion-1);
 		}
-		gui.showHandCards(yourCardsOnHand,yourCardsOnField,enemyCardsOnField);		
+		client.updateBoard(yourCardsOnField,enemyCardsOnField);	
 	}
 	
-	public void getStartCards(){
-//		Random rand = new Random();
-//		int next = rand.nextInt(theDeck.size());
-//		int delete = next;
-//
-//		for(Card card: yourCardsOnHand){
-////			System.out.println("in cardsOnHand " + card.getName());
-//		}		
+	
+	public void updateBoard(ArrayList<Card> yourCardsOnField, ArrayList<Card> enemyCardsOnField){
+		System.out.println("yourCardsOnField " + yourCardsOnField.size() + " enemyCardsOnField " + enemyCardsOnField.size());	
+		gui.showHandCards(yourCardsOnHand,yourCardsOnField,enemyCardsOnField);	
 	}
+	
 	
 	
 	public void getCard(){
@@ -151,25 +130,26 @@ public class Controller {
 	}
 	
 	public void summonCard(int handPlace, Card card){
-		
-		yourCardsOnField.add(yourCardsOnHand.get(handPlace));
+//		System.out.println("before summ " + yourCardsOnHand.size());
+		yourCardsOnField.add(yourCardsOnHand.get(handPlace));	
 		yourCardsOnHand.remove(handPlace);		
 		manaLeft = manaLeft - card.getCost();
 		client.updateBoard(yourCardsOnField,enemyCardsOnField);
-		gui.changeManaLeft(manaLeft);
+		gui.changeManaLeft(manaLeft);		
 		
-		
-		if(yourCardsOnHand.size()==0){
-			gui.hideSumm1();
-		}
-		if(theDeck.size()>0 && yourCardsOnHand.size()<5){
-			gui.showDraw();
-		}
+//		if(yourCardsOnHand.size()==0){
+//			gui.hideSumm1();
+//		}
+//		if(theDeck.size()>0 && yourCardsOnHand.size()<5){
+//			gui.showDraw();
+//		}
+//		gui.showHandCards(yourCardsOnHand,yourCardsOnField,enemyCardsOnField);
+//		System.out.println("after summ " + yourCardsOnHand.size());
 	}
 	
-	public void summonedMinions(ArrayList<Card> cardsOnField){
-		this.yourCardsOnField = cardsOnField;
-	}
+//	public void summonedMinions(ArrayList<Card> cardsOnField){
+//		this.yourCardsOnField = cardsOnField;
+//	}
 	
 	public void enemySummonedMinions(ArrayList<Card> enemyCardsOnField){
 		this.enemyCardsOnField =enemyCardsOnField;
