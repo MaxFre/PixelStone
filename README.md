@@ -1,5 +1,5 @@
 # PixelStone
-A small project where a version of the famous Heartstone game is done
+A small project that is a mini version of the famous Heartstone game.
 
 <img src = "PixelStone/images/gitHubPreview.gif">
 
