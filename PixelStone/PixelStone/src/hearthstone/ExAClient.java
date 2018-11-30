@@ -37,7 +37,7 @@ public class ExAClient implements Runnable{
 		this.ipAdress = ipAddress;
 		this.port = port;		
 		this.PlayerName = NameOfPlayer;
-//		controller.tellImHere(this);
+		controller.tellImHere(this);
 		socket = new Socket(ipAddress, port);
 		ois = new ObjectInputStream(socket.getInputStream());
 		oos = new ObjectOutputStream(socket.getOutputStream());		

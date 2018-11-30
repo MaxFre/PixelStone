@@ -1,11 +1,3 @@
-meteor
-0
-0
-0
-meteor
-meteor
-meteor
-------
 Bub
 4
 4
